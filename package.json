@@ -1,0 +1,76 @@
+{
+  "name": "zambda",
+  "version": "0.1.0",
+  "description": "Produce zips for AWS lambda the easy way",
+  "homepage": "https://github.com/bhoudu/zambda",
+  "bugs": "https://github.com/bhoudu/zambda/issues",
+  "author": "Benjamin Houdu",
+  "engines": {
+    "node": ">= 0.12.0"
+  },
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bhoudu/zambda.git"
+  },
+  "keywords": [
+    "zip",
+    "lambda",
+    "aws"
+  ],
+  "scripts": {
+    "prebuild": "rimraf lib",
+    "build": "tsc -p tsconfig.json",
+    "test": "cross-env NODE_ENV?=test TZ=UTC jest --colors --detectOpenHandles --forceExit --no-cache --runInBand",
+    "lint": "eslint 'src/**/*.ts' --fix-dry-run",
+    "verify": "yarn verify:mkdir && yarn:verify:clean && yarn verify:json && yarn verify:html",
+    "verify:mkdir": "mkdir -p reports && yarn verify:json && yarn verify:html",
+    "verify:clean": "rimraf reports/yarn-audit.json",
+    "verify:json": "yarn audit --json > reports/yarn-audit.json",
+    "verify:html": "cat reports/yarn-audit.json | yarn-audit-html --output reports/yarn-audit-report.html",
+    "release": "semantic-release"
+  },
+  "bin": {
+    "zambda": "./lib/zambda.js"
+  },
+  "main": "lib/zambda.js",
+  "types": "lib/zambda.d.ts",
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "archiver": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.36",
+    "@types/jest": "27.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
+    "cross-env-default": "^5.1.3-1",
+    "eslint": "^8.7.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.7",
+    "jest-html-reporter": "^3.4.2",
+    "jest-sonarcloud-reporter": "^1.0.1",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2",
+    "semantic-release-gitmoji": "^1.4.2",
+    "typescript": "^4.5.4",
+    "ts-jest": "^27.1.3",
+    "yarn-audit-html": "^3.0.1",
+    "semantic-release": "^19.0.2",
+    "@semantic-release/npm": "^9.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.2"
+  },
+  "jestSonar": {
+    "withRelativePaths": true,
+    "reportPath": "reports",
+    "reportFile": "test-report.xml"
+  }
+}
