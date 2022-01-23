@@ -9,7 +9,7 @@ module.exports = {
       prerelease: 'rc'
     },
     {
-      branch: 'master'
+      branch: 'main'
     },
   ],
   plugins: [
