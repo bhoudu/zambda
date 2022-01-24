@@ -1,15 +1,15 @@
 module.exports = {
   branches: [
     {
-      branch: 'develop',
+      name: 'develop',
       prerelease: true
     },
     {
-      branch: 'release',
-      prerelease: 'rc'
+      name: 'release',
+      prerelease: true
     },
     {
-      branch: 'main'
+      name: 'main'
     },
   ],
   plugins: [
