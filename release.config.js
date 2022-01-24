@@ -6,38 +6,50 @@ module.exports = {
     },
     {
       name: 'release',
-      prerelease: true
+      prerelease: 'rc'
     },
     {
       name: 'main'
     },
   ],
   plugins: [
-    'semantic-release-gitmoji', {
-      releaseRules: {
-        major: [
-          ':boom:',
-        ],
-        minor: [
-          ':sparkles:',
-          ':zap:',
-          ':fire:',
-          ':alembic:',
-          ':tada:',
-          ':rocket:',
-        ],
-        patch: [
-          ':bug:',
-          ':ambulance:',
-          ':lock:',
-          ':lipstick:',
-          ':cop:',
-          ':tv:',
-          ':package:',
-          ':recycle:',
-        ]
+    [
+      'semantic-release-gitmoji',
+      {
+        releaseRules: {
+          major: {
+            include: [
+              ':boom:',
+            ]
+          },
+          minor: {
+            include: [
+              ':sparkles:',
+              ':zap:',
+              ':fire:',
+              ':alembic:',
+              ':tada:',
+              ':rocket:',
+            ],
+          },
+          patch: {
+            include: [
+              ':bug:',
+              ':ambulance:',
+              ':lock:',
+              ':lipstick:',
+              ':cop:',
+              ':tv:',
+              ':package:',
+              ':recycle:',
+              ':abc:',
+              ":bento:",
+              ":arrow_up:"
+            ]
+          }
+        }
       }
-    },
+    ],
     [
       "@semantic-release/github",
       {
@@ -57,6 +69,7 @@ module.exports = {
         ],
         message: 'chore(release): Release <%= nextRelease.version %> - <%= new Date().toLocaleDateString(\'en-US\', {year: \'numeric\', month: \'short\', day: \'numeric\', hour: \'numeric\', minute: \'numeric\' }) %> [skip ci]\\n\\n<%= nextRelease.notes %>'
       }
-    ]
+    ],
+    '@semantic-release/npm',
   ]
 }
