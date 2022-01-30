@@ -7,7 +7,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "outDir": "./bin",
+    "outDir": "./lib",
     "baseUrl": "./",
     "incremental": true,
     "allowSyntheticDefaultImports": true,
