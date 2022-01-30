@@ -20,6 +20,7 @@ lerna-debug.log*
 /reports
 /.nyc_output
 test-report.html
+test-folder
 
 # IDEs and editors
 .idea
