@@ -15,6 +15,7 @@ You then write a JSON zambda configuration file `lambda_handler.zambda.json` for
         "workDir": "zambda-dist",
         "zip": {
             "name": "my_lambda.zip",
+        },
         "folders": [
             "config"
         ],
