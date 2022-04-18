@@ -40,3 +40,4 @@ test-folder
 !.vscode/extensions.json
 
 # AWS
+.aws
