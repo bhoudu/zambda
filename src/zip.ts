@@ -1,24 +1,7 @@
 import fs from "fs";
 import archiver from 'archiver';
 import * as mkdirp from "mkdirp";
-
-interface ZambdaFile {
-  source: string;
-  destination?: string;
-}
-
-type ZambdaFolder = string | ZambdaFile;
-
-interface ZambdaZip {
-  name: string;
-  folders: ZambdaFolder[];
-  files: ZambdaFile[];
-}
-
-interface ZambdaConfig {
-  workDir: string;
-  zip: ZambdaZip;
-}
+import { parseZambdaConfig, ZambdaConfig, ZambdaFile } from "./config";
 
 export function zipWithConf(
   zambdaConfig: ZambdaConfig,
@@ -93,14 +76,7 @@ export function zipWithConf(
 export async function zip(
   configFilePath: string,
 ): Promise<boolean> {
-  const configJson: string = fs.readFileSync(configFilePath, {
-    encoding: 'UTF-8',
-  });
-  if (!configJson) {
-    throw new Error('JSON file: ' + configFilePath + ' cannot be read!');
-  }
-  // Parse configuration
-  const zambdaConfig = JSON.parse(configJson) as ZambdaConfig;
+  const zambdaConfig = parseZambdaConfig(configFilePath);
   return zipWithConf(zambdaConfig).then(() => {
     console.log('gfg');
     return true;

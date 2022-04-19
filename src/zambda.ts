@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-
-import { zip } from "./zip";
+import { zipWithConf } from "./zip";
+import { parseZambdaConfig } from "./config";
 
 const isOK = process.argv.length > 2;
 if (!isOK) {
@@ -9,10 +9,12 @@ if (!isOK) {
 }
 
 // Zip!
-const confFile = process.argv[2];
-zip(confFile)
+const confFilePath = process.argv[2];
+const S3Suffix = process.argv.length > 3 ? process.argv[3] : '';
+const zambdaConfig = parseZambdaConfig(confFilePath);
+zipWithConf(zambdaConfig)
   .then(function handler(): void {
-    console.log('Zambda archive for conf: ' + confFile + ' has been generated!');
+    console.log('Zambda archive for conf: ' + confFilePath + ' has been generated!');
     process.exit(0);
   })
   .catch(e => {
