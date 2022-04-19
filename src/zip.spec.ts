@@ -1,4 +1,4 @@
-import { zipWithConf } from "./zip";
+import { zipWithConf } from './zip';
 
 describe('zip.ts', () => {
   it('should zip file from given json conf', async () => {
@@ -8,21 +8,21 @@ describe('zip.ts', () => {
         name: 'test.zip',
         files: [
           {
-            source: 'README.md'
+            source: 'README.md',
           },
           {
             source: 'package.json',
             destination: 'subpath/package.json',
-          }
+          },
         ],
         folders: [
           'resources',
           {
             source: 'src',
             destination: 'subpath/src',
-          }
+          },
         ],
-      }
+      },
     });
     expect(result).toBeTruthy();
   }, 10000);

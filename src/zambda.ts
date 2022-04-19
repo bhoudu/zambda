@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { zipWithConf } from "./zip";
-import { parseZambdaConfig } from "./config";
+import { zipWithConf } from './zip';
+import { parseZambdaConfig } from './config';
 
 const isOK = process.argv.length > 2;
 if (!isOK) {
@@ -17,7 +17,7 @@ zipWithConf(zambdaConfig)
     console.log('Zambda archive for conf: ' + confFilePath + ' has been generated!');
     process.exit(0);
   })
-  .catch(e => {
+  .catch((e) => {
     console.error(e + '');
     process.exit(1);
   });

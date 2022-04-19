@@ -1,5 +1,5 @@
-import { Upload } from "@aws-sdk/lib-storage";
-import { S3, Tag } from "@aws-sdk/client-s3";
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3, Tag } from '@aws-sdk/client-s3';
 
 export async function push(
   s3: S3,
@@ -7,8 +7,8 @@ export async function push(
   key: string,
   body: string | Uint8Array | Buffer,
   tags: Tag[] = [],
-  queueSize: number = 4,
-  partSize: number = 5,
+  queueSize = 4,
+  partSize = 5,
 ): Promise<boolean> {
   try {
     const parallelUploads3 = new Upload({
@@ -23,15 +23,10 @@ export async function push(
         Body: body,
       },
     });
-    parallelUploads3.on(
-      "httpUploadProgress",
-      (progress) => {
-        console.log(progress);
-      }
-    );
-    return parallelUploads3
-      .done()
-      .then(() => true);
+    parallelUploads3.on('httpUploadProgress', (progress) => {
+      console.log(progress);
+    });
+    return parallelUploads3.done().then(() => true);
   } catch (e) {
     console.log(e);
     return false;

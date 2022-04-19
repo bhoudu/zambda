@@ -1,11 +1,9 @@
-import fs from "fs";
+import fs from 'fs';
 import archiver from 'archiver';
-import * as mkdirp from "mkdirp";
-import { parseZambdaConfig, ZambdaConfig, ZambdaFile } from "./config";
+import * as mkdirp from 'mkdirp';
+import { parseZambdaConfig, ZambdaConfig, ZambdaFile } from './config';
 
-export function zipWithConf(
-  zambdaConfig: ZambdaConfig,
-): Promise<boolean> {
+export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
   // Define workPath
   const workPath = zambdaConfig.workDir.endsWith('/') ? zambdaConfig.workDir : zambdaConfig.workDir + '/';
   return new Promise((resolve, reject) => {
@@ -40,14 +38,14 @@ export function zipWithConf(
     archive.on('error', reject);
 
     // Append files
-    zambdaConfig.zip?.files.forEach(f => {
+    zambdaConfig.zip?.files.forEach((f) => {
       const filePath = f.source;
-      const fileName = !!f.destination ? f.destination : f.source;
+      const fileName = f.destination ? f.destination : f.source;
       archive.file(filePath, { name: fileName });
     });
 
     // Append folders
-    zambdaConfig.zip?.folders.forEach(f => {
+    zambdaConfig.zip?.folders.forEach((f) => {
       const isString = typeof f === 'string' || f instanceof String;
       if (isString) {
         const folder = f as string;
@@ -56,10 +54,9 @@ export function zipWithConf(
         archive.directory(directory, destination);
       } else {
         const zambdaFile = f as ZambdaFile;
-        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source
-          : zambdaFile.source + '/';
-        const destination = zambdaFile.destination.endsWith('/') ?
-          zambdaFile.destination.substring(0, zambdaFile.destination.length - 1)
+        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source : zambdaFile.source + '/';
+        const destination = zambdaFile.destination.endsWith('/')
+          ? zambdaFile.destination.substring(0, zambdaFile.destination.length - 1)
           : zambdaFile.destination;
         archive.directory(source, destination);
       }
@@ -73,9 +70,7 @@ export function zipWithConf(
   });
 }
 
-export async function zip(
-  configFilePath: string,
-): Promise<boolean> {
+export async function zip(configFilePath: string): Promise<boolean> {
   const zambdaConfig = parseZambdaConfig(configFilePath);
   return zipWithConf(zambdaConfig).then(() => {
     console.log('gfg');

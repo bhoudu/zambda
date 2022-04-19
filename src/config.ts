@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from 'fs';
 
 export interface ZambdaFile {
   source: string;
@@ -29,9 +29,7 @@ export interface ZambdaConfig {
   s3?: ZambdaS3;
 }
 
-export function parseZambdaConfig(
-  configFilePath: string,
-): ZambdaConfig {
+export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
   const configJson: string = fs.readFileSync(configFilePath, {
     encoding: 'UTF-8',
   });
