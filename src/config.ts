@@ -29,6 +29,11 @@ export interface ZambdaConfig {
   s3?: ZambdaS3;
 }
 
+/**
+ * Reads zambda config file from file system and return parsed config object
+ *
+ * @param configFilePath to read conf from on file system
+ */
 export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
   const configJson: string = fs.readFileSync(configFilePath, {
     encoding: 'UTF-8',
@@ -38,4 +43,13 @@ export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
   }
   // Parse configuration
   return JSON.parse(configJson) as ZambdaConfig;
+}
+
+/**
+ * Returns workPath ending with trailing '/'
+ *
+ * @param config for zambda
+ */
+export function getWorkPath(config: ZambdaConfig): string {
+  return config.workDir.endsWith('/') ? config.workDir : config.workDir + '/';
 }

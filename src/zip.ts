@@ -1,11 +1,16 @@
 import fs from 'fs';
 import archiver from 'archiver';
 import * as mkdirp from 'mkdirp';
-import { parseZambdaConfig, ZambdaConfig, ZambdaFile } from './config';
+import { getWorkPath, parseZambdaConfig, ZambdaConfig, ZambdaFile } from './config';
 
+/**
+ * Generates a zip file based on zambda configuration
+ *
+ * @param zambdaConfig that defines zip file to create
+ */
 export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
   // Define workPath
-  const workPath = zambdaConfig.workDir.endsWith('/') ? zambdaConfig.workDir : zambdaConfig.workDir + '/';
+  const workPath = getWorkPath(zambdaConfig);
   return new Promise((resolve, reject) => {
     // Create work dir
     mkdirp.sync(workPath);
@@ -70,6 +75,11 @@ export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
   });
 }
 
+/**
+ * Generates zip from zambda conf file that is defined at given file path
+ *
+ * @param configFilePath to zambda conf file in JSON format
+ */
 export async function zip(configFilePath: string): Promise<boolean> {
   const zambdaConfig = parseZambdaConfig(configFilePath);
   return zipWithConf(zambdaConfig).then(() => {
