@@ -1,30 +1,16 @@
-import fs from "fs";
+import fs from 'fs';
 import archiver from 'archiver';
-import * as mkdirp from "mkdirp";
+import * as mkdirp from 'mkdirp';
+import { getWorkPath, parseZambdaConfig, ZambdaConfig, ZambdaFile } from './config';
 
-interface ZambdaFile {
-  source: string;
-  destination?: string;
-}
-
-type ZambdaFolder = string | ZambdaFile;
-
-interface ZambdaZip {
-  name: string;
-  folders: ZambdaFolder[];
-  files: ZambdaFile[];
-}
-
-interface ZambdaConfig {
-  workDir: string;
-  zip: ZambdaZip;
-}
-
-export function zipWithConf(
-  zambdaConfig: ZambdaConfig,
-): Promise<boolean> {
+/**
+ * Generates a zip file based on zambda configuration
+ *
+ * @param zambdaConfig that defines zip file to create
+ */
+export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
   // Define workPath
-  const workPath = zambdaConfig.workDir.endsWith('/') ? zambdaConfig.workDir : zambdaConfig.workDir + '/';
+  const workPath = getWorkPath(zambdaConfig);
   return new Promise((resolve, reject) => {
     // Create work dir
     mkdirp.sync(workPath);
@@ -57,14 +43,14 @@ export function zipWithConf(
     archive.on('error', reject);
 
     // Append files
-    zambdaConfig.zip?.files.forEach(f => {
+    zambdaConfig.zip?.files.forEach((f) => {
       const filePath = f.source;
-      const fileName = !!f.destination ? f.destination : f.source;
+      const fileName = f.destination ? f.destination : f.source;
       archive.file(filePath, { name: fileName });
     });
 
     // Append folders
-    zambdaConfig.zip?.folders.forEach(f => {
+    zambdaConfig.zip?.folders.forEach((f) => {
       const isString = typeof f === 'string' || f instanceof String;
       if (isString) {
         const folder = f as string;
@@ -73,10 +59,9 @@ export function zipWithConf(
         archive.directory(directory, destination);
       } else {
         const zambdaFile = f as ZambdaFile;
-        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source
-          : zambdaFile.source + '/';
-        const destination = zambdaFile.destination.endsWith('/') ?
-          zambdaFile.destination.substring(0, zambdaFile.destination.length - 1)
+        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source : zambdaFile.source + '/';
+        const destination = zambdaFile.destination.endsWith('/')
+          ? zambdaFile.destination.substring(0, zambdaFile.destination.length - 1)
           : zambdaFile.destination;
         archive.directory(source, destination);
       }
@@ -90,17 +75,13 @@ export function zipWithConf(
   });
 }
 
-export async function zip(
-  configFilePath: string,
-): Promise<boolean> {
-  const configJson: string = fs.readFileSync(configFilePath, {
-    encoding: 'UTF-8',
-  });
-  if (!configJson) {
-    throw new Error('JSON file: ' + configFilePath + ' cannot be read!');
-  }
-  // Parse configuration
-  const zambdaConfig = JSON.parse(configJson) as ZambdaConfig;
+/**
+ * Generates zip from zambda conf file that is defined at given file path
+ *
+ * @param configFilePath to zambda conf file in JSON format
+ */
+export async function zip(configFilePath: string): Promise<boolean> {
+  const zambdaConfig = parseZambdaConfig(configFilePath);
   return zipWithConf(zambdaConfig).then(() => {
     console.log('gfg');
     return true;
