@@ -1,7 +1,7 @@
 module.exports = {
   branches: [
     {
-      name: 'main'
+      name: 'main',
     },
   ],
   plugins: [
@@ -10,18 +10,10 @@ module.exports = {
       {
         releaseRules: {
           major: {
-            include: [
-              ':boom:',
-            ]
+            include: [':boom:'],
           },
           minor: {
-            include: [
-              ':sparkles:',
-              ':zap:',
-              ':fire:',
-              ':alembic:',
-              ':rocket:',
-            ],
+            include: [':sparkles:', ':zap:', ':fire:', ':alembic:', ':rocket:'],
           },
           patch: {
             include: [
@@ -36,35 +28,30 @@ module.exports = {
               ':abc:',
               ':pencil:',
               ':recycle:',
-              ":bento:",
-              ":arrow_up:",
+              ':bento:',
+              ':arrow_up:',
               ':wrench:',
-              ':robot:'
-            ]
-          }
-        }
-      }
+              ':robot:',
+            ],
+          },
+        },
+      },
     ],
     [
-      "@semantic-release/github",
+      '@semantic-release/github',
       {
-        "assets": [
-          "lib/**",
-          "package.json",
-          "README.md"
-        ]
-      }
+        assets: ['lib/**', 'package.json', 'README.md'],
+      },
     ],
     [
       '@semantic-release/git',
       {
-        assets: [
-          'README.md',
-          'package.json'
-        ],
-        message: ':tada: Release <%= nextRelease.version %> - <%= new Date().toLocaleDateString(\'en-US\', {year: \'numeric\', month: \'short\', day: \'numeric\', hour: \'numeric\', minute: \'numeric\' }) %> [skip ci]\\n\\n<%= nextRelease.notes %>'
-      }
+        assets: ['README.md', 'package.json'],
+        message:
+          // eslint-disable-next-line max-len
+          ":tada: Release <%= nextRelease.version %> - <%= new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) %> [skip ci]\\n\\n<%= nextRelease.notes %>",
+      },
     ],
     '@semantic-release/npm',
-  ]
-}
+  ],
+};
