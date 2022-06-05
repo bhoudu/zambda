@@ -1,15 +1,17 @@
 # Zambda: zipping things for AWS Lambda
 [![npm version](https://badge.fury.io/js/zambda.svg)](https://badge.fury.io/js/zambda) [![Build Status](https://github.com/bhoudu/zambda/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/bhoudu/zambda/actions?query=branch%3Adevelop)
 
-Zambda is a basic CLI to package files in a zip based on JSON file.
+Zambda is a basic CLI to package files in a zip based on a JSON configuration file.
 
-Installation
+ ## Usage
 
+
+Install zambda with yarn or npm
 
     yarn install -g zambda
 
 
-You then write a JSON zambda configuration file `lambda_handler.zambda.json` for instance.
+Write a JSON zambda configuration file `lambda_handler.zambda.json` for instance.
 
     {
         "workDir": "zambda-dist",
@@ -34,7 +36,7 @@ You then write a JSON zambda configuration file `lambda_handler.zambda.json` for
         ]
     }
 
-You run zambda with your conf file as parameter.
+Run zambda with your conf file as parameter.
 
     zambda lambda_handler.zambda.json
 
