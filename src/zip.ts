@@ -1,7 +1,7 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import archiver from 'archiver';
 import * as mkdirp from 'mkdirp';
-import { getWorkPath, parseZambdaConfig, ZambdaConfig, ZambdaFile } from './config';
+import { getWorkPath, parseZambdaConfig, type ZambdaConfig, type ZambdaFile } from './config';
 
 /**
  * Generates a zip file based on zambda configuration
@@ -26,7 +26,7 @@ export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
 
     // Listeners on zip
     output.on('close', function close(): void {
-      console.log(archive.pointer() + ' total bytes');
+      console.log(`${archive.pointer()} total bytes`);
       resolve(true);
     });
     output.on('end', reject);
@@ -35,7 +35,7 @@ export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
     archive.on('warning', function warn(err): void {
       if (err.code === 'ENOENT') {
         // log warning
-        console.warn('Error found: ' + err);
+        console.warn(`Error found: ${err}`);
         return;
       }
       reject(err);
@@ -54,12 +54,12 @@ export function zipWithConf(zambdaConfig: ZambdaConfig): Promise<boolean> {
       const isString = typeof f === 'string' || f instanceof String;
       if (isString) {
         const folder = f as string;
-        const directory = folder.endsWith('/') ? f : f + '/';
+        const directory = folder.endsWith('/') ? f : `${f}/`;
         const destination = folder.endsWith('/') ? folder.substring(0, folder.length - 1) : folder;
         archive.directory(directory, destination);
       } else {
         const zambdaFile = f as ZambdaFile;
-        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source : zambdaFile.source + '/';
+        const source = zambdaFile.source.endsWith('/') ? zambdaFile.source : `${zambdaFile.source}/`;
         const destination = zambdaFile.destination.endsWith('/')
           ? zambdaFile.destination.substring(0, zambdaFile.destination.length - 1)
           : zambdaFile.destination;

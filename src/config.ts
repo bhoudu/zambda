@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
 export interface ZambdaFile {
   source: string;
@@ -39,7 +39,7 @@ export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
     encoding: 'utf8',
   });
   if (!configJson) {
-    throw new Error('JSON file: ' + configFilePath + ' cannot be read!');
+    throw new Error(`JSON file: ${configFilePath} cannot be read!`);
   }
   // Parse configuration
   return JSON.parse(configJson) as ZambdaConfig;
@@ -51,5 +51,5 @@ export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
  * @param config for zambda
  */
 export function getWorkPath(config: ZambdaConfig): string {
-  return config.workDir.endsWith('/') ? config.workDir : config.workDir + '/';
+  return config.workDir.endsWith('/') ? config.workDir : `${config.workDir}/`;
 }

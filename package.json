@@ -23,7 +23,8 @@
     "build": "tsc -p tsconfig.json",
     "test": "cross-env NODE_ENV?=test TZ=UTC jest --colors --detectOpenHandles --forceExit --no-cache --runInBand",
     "lint": "biome lint ./src",
-    "lint:fix": "biome lint --write ."
+    "lint:fix": "biome lint --write ./src",
+    "lint:fix:unsafe": "biome lint --write --unsafe ./src"
   },
   "bin": {
     "zambda": "./lib/zambda.js"
@@ -36,7 +37,8 @@
     "LICENSE"
   ],
   "dependencies": {
-    "archiver": "^7.0.1"
+    "archiver": "^7.0.1",
+    "mkdirp": "^3.0.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.15",
