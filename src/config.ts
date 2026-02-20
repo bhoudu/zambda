@@ -36,7 +36,7 @@ export interface ZambdaConfig {
  */
 export function parseZambdaConfig(configFilePath: string): ZambdaConfig {
   const configJson: string = fs.readFileSync(configFilePath, {
-    encoding: 'UTF-8',
+    encoding: 'utf8',
   });
   if (!configJson) {
     throw new Error('JSON file: ' + configFilePath + ' cannot be read!');
