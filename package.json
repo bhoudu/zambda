@@ -6,7 +6,7 @@
   "bugs": "https://github.com/bhoudu/zambda/issues",
   "author": "Benjamin Houdu",
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 24"
   },
   "license": "BSD-3-Clause",
   "repository": {
@@ -22,7 +22,8 @@
     "prebuild": "rimraf lib",
     "build": "tsc -p tsconfig.json",
     "test": "cross-env NODE_ENV?=test TZ=UTC jest --colors --detectOpenHandles --forceExit --no-cache --runInBand",
-    "lint": ""
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --write ."
   },
   "bin": {
     "zambda": "./lib/zambda.js"
