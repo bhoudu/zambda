@@ -21,7 +21,7 @@
   "scripts": {
     "prebuild": "rimraf lib",
     "build": "tsc -p tsconfig.json",
-    "test": "cross-env NODE_ENV?=test TZ=UTC jest --colors --detectOpenHandles --forceExit --no-cache --runInBand",
+    "test": "cross-env NODE_ENV=test TZ=UTC jest --colors --detectOpenHandles --forceExit --no-cache --runInBand",
     "lint": "biome lint ./src",
     "lint:fix": "biome lint --write ./src",
     "lint:fix:unsafe": "biome lint --write --unsafe ./src"
