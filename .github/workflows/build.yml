@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - npm
 
 permissions:
   contents: read
@@ -24,12 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
-        with:
-          version: latest
       - name: Run Biome
-        run: biome ci ./src
+        run: npm run lint
 
       - name: Build
         run: npm run build
